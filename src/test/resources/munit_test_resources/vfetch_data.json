@@ -1,0 +1,27 @@
+[{
+
+    "_id": {
+        "$oid": "6270d2b28e937ad90a1c230b"
+    },
+    "uid": "3135696952",
+    "fname": "Marylynne",
+    "lname": "Aylesbury",
+    "sex": "Female",
+    "caste": "sc",
+    "dob": "2001-04-06",
+    "address": {
+        "street": "27419 Pine View Lane",
+        "city": "Varberg",
+        "state": "Halland",
+        "postalCode": "095477"
+    },
+    "contactDetails": {
+        "email": "maylesbury0@oakley.com",
+        "phone": "1766239460"
+    },
+    "educationDetails": {
+        "hsScore": 85,
+        "rank": 37000
+    }
+
+}]

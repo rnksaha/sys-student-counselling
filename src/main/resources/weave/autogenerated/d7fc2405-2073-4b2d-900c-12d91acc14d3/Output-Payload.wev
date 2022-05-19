@@ -1,0 +1,7 @@
+%dw 2.0
+
+type auto_d7fc2405_2073_4b2d_900c_12d91acc14d3_Output_Payload = {
+  success_message: String, 
+  _?: Any
+} {"description": "The standard success response"}
+

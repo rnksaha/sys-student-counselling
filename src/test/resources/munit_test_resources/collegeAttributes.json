@@ -1,0 +1,6 @@
+{
+"maskedRequestPath": "/college",
+"queryParams": {
+"id": "1234"
+}
+}

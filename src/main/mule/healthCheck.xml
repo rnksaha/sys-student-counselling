@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="healthCheckSub_Flow" doc:id="fbf45487-a679-4de6-a299-234ea7b4b00d" >
+		<ee:transform doc:name="healthCheck_Message" doc:id="d8cd8fb9-5af0-40c3-bb7d-a337c1c7bf98" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  module: "SAPI Student Counselling",
+  projectVersion: "1.0.0",
+  apiVersion: "1.0.0",
+  env: "DEV",
+  status: "200",
+  message: "Alive"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

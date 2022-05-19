@@ -1,0 +1,13 @@
+[{
+
+    "_id": {
+        "$oid": "627d34f626773e6de20bf60c"
+    },
+    "student_id": "3135696952",
+    "assigned_id": "CSE5236401475",
+    "college_details": {
+        "college_id": "JAU5952885",
+        "department": "ECE"
+    }
+
+}]

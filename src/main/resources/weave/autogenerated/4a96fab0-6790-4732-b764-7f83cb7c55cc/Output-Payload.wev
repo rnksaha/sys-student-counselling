@@ -1,0 +1,137 @@
+%dw 2.0
+
+type auto_4a96fab0_6790_4732_b764_7f83cb7c55cc_Output_Payload = {
+  seatsDetails: {
+    CE?: {
+      reserve: {
+        sc?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        gen?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        st?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        _?: Any
+      }, 
+      totalSeats: Number, 
+      _?: Any
+    } {"description": "Individual department data"}, 
+    CSE?: {
+      reserve: {
+        sc?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        gen?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        st?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        _?: Any
+      }, 
+      totalSeats: Number, 
+      _?: Any
+    } {"description": "Individual department data"}, 
+    ECE?: {
+      reserve: {
+        sc?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        gen?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        st?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        _?: Any
+      }, 
+      totalSeats: Number, 
+      _?: Any
+    } {"description": "Individual department data"}, 
+    ME?: {
+      reserve: {
+        sc?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        gen?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        st?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        _?: Any
+      }, 
+      totalSeats: Number, 
+      _?: Any
+    } {"description": "Individual department data"}, 
+    IT?: {
+      reserve: {
+        sc?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        gen?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        st?: {
+          noOfSeat: Number, 
+          _?: Any
+        }, 
+        _?: Any
+      }, 
+      totalSeats: Number, 
+      _?: Any
+    } {"description": "Individual department data"}, 
+    _?: Any
+  }, 
+  address: {
+    city: String, 
+    street: String, 
+    postalCode: String, 
+    state: String, 
+    _?: Any
+  }, 
+  criteria: {
+    sc: {
+      minScore: Number, 
+      maxRank: Number, 
+      _?: Any
+    } {"description": "Individual caste data"}, 
+    gen: {
+      minScore: Number, 
+      maxRank: Number, 
+      _?: Any
+    } {"description": "Individual caste data"}, 
+    st: {
+      minScore: Number, 
+      maxRank: Number, 
+      _?: Any
+    } {"description": "Individual caste data"}, 
+    _?: Any
+  }, 
+  name: String, 
+  id: String, 
+  contactDetails: {
+    phone: String, 
+    email: String, 
+    _?: Any
+  }, 
+  seatsAvailable: Number, 
+  _?: Any
+} {"description": "Individual college data"}
+

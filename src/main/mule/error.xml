@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+	<error-handler name="globalError_Handler" doc:id="6e2ab5d8-8e97-4d95-a576-12a1a8210f23" >
+	<on-error-propagate type="APIKIT:NOT_ACCEPTABLE,APIKIT:BAD_REQUEST,APIKIT:NOT_FOUND,APIKIT:METHOD_NOT_ALLOWED,APIKIT:UNSUPPORTED_MEDIA_TYPE,APIKIT:NOT_IMPLEMENTED" enableNotifications="true" logException="true">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	errorMessage: error.description
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+	<on-error-propagate type="MONGO:CONNECTIVITY, MONGO:CONSISTENCY_ERROR, MONGO:DUPLICATE_ERROR, MONGO:INVALID_INPUT, MONGO:NOT_FOUND, MONGO:PERMISSIONS_DENIED, MONGO:TIMEOUT" enableNotifications="true" logException="true">
+                <ee:transform>
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	errorMessage: error.description
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="58ab27c3-da80-412e-90f4-487bea1ab253" type=" APP:NOT_UPDATED, APP:NOT_INSERTED">
+				<ee:transform doc:name="Transform Message" doc:id="8c9d71a1-6594-4cfe-aad4-c20633b67a92" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error_message": error.description
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="970a6467-c202-42e9-9dc7-d7e1f985959e" type="VALIDATION:EMPTY_COLLECTION">
+			<ee:transform doc:name="Transform Message" doc:id="49aee5b4-40e9-4402-b2a3-864b3deafa94" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Strings
+output application/json
+---
+{
+	"error_message": capitalize(vars.vAttributes.maskedRequestPath remove "/") as String ++ " id not found"
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="386a9bc0-19db-4d51-a264-b31abb3bd238" type="ANY">
+			<ee:transform doc:name="anyError" doc:id="d7d54860-f7dd-4c87-b8a7-01de4b13a33a">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error_message": error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+	
+</error-handler>
+	
+</mule>

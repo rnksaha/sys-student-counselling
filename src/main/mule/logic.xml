@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+	<sub-flow name="fetchData_LogicSubFlow" doc:id="40ff7aa7-54c9-4231-b2e9-5ed1af3bad11" >
+		<ee:transform doc:name="setDbDetails" doc:id="cc5d5de4-ea20-4a5c-ba1f-42a1aa107dfd">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var index = if ( vars.vAttributes.maskedRequestPath == "/college" ) {
+	indexValue: "id",
+	collectionValue: p('mongo.college_collection.name'),
+	fields: p('mongo.college_collection.fields')
+}
+else if ( vars.vAttributes.maskedRequestPath == "/student" ) {
+	indexValue: "uid",
+	collectionValue: p('mongo.student_collection.name'),
+	fields: p('mongo.student_collection.fields')
+}
+else if ( vars.vAttributes.maskedRequestPath == "/enrolment" ) {
+	indexValue: "student_id",
+	collectionValue: p('mongo.enrolment_collection.name'),
+	fields: p('mongo.enrolment_collection.fields')
+}
+else null
+---
+{
+	dbPayload: (index.indexValue): vars.vAttributes.queryParams.id,
+	dbCollection: index.collectionValue,
+	dbFields: index.fields
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<mongo:find-documents doc:name="fetch_data" doc:id="ae908f18-df25-4187-bbbd-fd327b0e036c" config-ref="MongoDB_Config" collectionName="#[payload.dbCollection]" fields="#[payload.dbFields]" limit="1" target="vfetch_data">
+			<mongo:query><![CDATA[#[payload.dbPayload]]]></mongo:query>
+		</mongo:find-documents>
+		<validation:is-not-empty-collection doc:name="vfetch_data" doc:id="41f8eab2-914f-4bdb-a745-52880ab3b1e8" values="#[vars.vfetch_data]" message="Id value is empty."/>
+		<ee:transform doc:name="responseData" doc:id="ee2f2a9c-5732-4edd-9ced-da6fb2897e54">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+vars.vfetch_data[0]]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+	</sub-flow>
+	<sub-flow name="insertData_LogicSubFlow" doc:id="59866322-fccf-4ab7-b763-30243f583e1d" >
+		<try doc:name="Try" doc:id="2bd97c62-9a3d-4399-8891-2e8b645f03ba" >
+			<mongo:insert-document collectionName="${mongo.enrolment_collection.name}" doc:name="Insert student enrolment" doc:id="49ddbad9-d4f3-42bd-a06a-8b40df2d12e7" config-ref="MongoDB_Config" targetValue="#[message]">
+			<mongo:document><![CDATA[#[vars.vPayload]]]></mongo:document>
+		</mongo:insert-document>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7207ae10-045a-4806-aae3-8b2d1bf88224" type="ANY">
+					<raise-error doc:name="APP:NOT_INSERTED" doc:id="02590852-3f2d-427a-b5fe-fd9cf9731c04" type="APP:NOT_INSERTED" description="Student enrolment failed"/>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="setSuccessMessage" doc:id="20102f27-db2f-4d68-92c2-af11b62cb2fd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"success_message": "Student enrolment successful"
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="updateData_LogicSubFlow" doc:id="144827f2-8cee-4ea9-8d14-1acfafaf450c" >
+		<try doc:name="Try" doc:id="1da22595-4920-48ca-b344-124de6a24df3" >
+			<mongo:update-documents collectionName="${mongo.college_collection.name}" doc:name="Update college availability" doc:id="b847c0d2-f398-483d-ad7e-d86d96514932" config-ref="MongoDB_Config" target="vUpdateStatus" writeConcernTimeoutTimeunit="MINUTES">
+			<mongo:query><![CDATA[#[{"id": vars.vPayload.id}]]]></mongo:query>
+			<mongo:content-to-update><![CDATA[#[vars.vPayload]]]></mongo:content-to-update>
+		</mongo:update-documents>
+			<validation:is-true doc:name="payloadModified" doc:id="7dacaa34-306f-40f8-a8a1-272b97b90973" expression="#[vars.vUpdateStatus.modified==1]"/>
+			<error-handler>
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="940d505f-adf3-4826-87af-77f2fb5b435e" type="ANY">
+					<raise-error doc:name="APP:NOT_UPDATED" doc:id="40eda543-38a5-453d-a48f-785b4d4ae0dd" type="APP:NOT_UPDATED" description="College update failure"/>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="setSuccessMessage" doc:id="ba4d6d32-6fce-46a7-8af8-445833b4fefb">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"success_message": "College update success"
+}
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+	</sub-flow>
+</mule>
