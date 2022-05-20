@@ -72,6 +72,20 @@
             "noOfSeat": 36
           }
         }
+      },
+      "ECE": {
+        "totalSeats": 95,
+        "reserve": {
+          "gen": {
+            "noOfSeat": 26
+          },
+          "sc": {
+            "noOfSeat": 33
+          },
+          "st": {
+            "noOfSeat": 36
+          }
+        }
       }
     },
     "address": {
@@ -83,5 +97,6 @@
     "contactDetails": {
       "email": "vbyron0@hubpages.com",
       "phone": "033-22901931"
-    }
+    },
+    "admissionFees": 5000
   }

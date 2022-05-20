@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-    
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
     <flow name="api-main" doc:id="6f5ea3a1-e1ce-4658-ba0a-5559e6c4e587">
         <http:listener path="/api/*" config-ref="api-httpListenerConfig">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -11,26 +10,86 @@
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
-        <set-variable value="#[attributes]" doc:name="vAttributes" doc:id="1cdc1ecf-3384-4366-a4d7-41bed240e813" variableName="vAttributes"/>
-		<set-variable value="#[payload]" doc:name="vPayload" doc:id="ebdc50eb-6a53-4848-98e9-8fc146ebaf3c" variableName="vPayload"/>
-		<apikit:router config-ref="api-config"/>
+        <set-variable value="#[attributes]" doc:name="vAttributes" doc:id="1cdc1ecf-3384-4366-a4d7-41bed240e813" variableName="vAttributes" />
+        <set-variable value="#[payload]" doc:name="vPayload" doc:id="ebdc50eb-6a53-4848-98e9-8fc146ebaf3c" variableName="vPayload" />
+        <apikit:router config-ref="api-config" />
     </flow>
     <flow name="get:\student:api-config" doc:id="75986e1f-a27d-41b4-b354-b7a8ccf53b56">
-		<flow-ref doc:name="fetchData_LogicSubFlow" doc:id="bf3b8f20-c731-455a-b830-456fe3b9d122" name="fetchData_LogicSubFlow"/>
+        <flow-ref doc:name="fetchData_LogicSubFlow" doc:id="bf3b8f20-c731-455a-b830-456fe3b9d122" name="fetchData_LogicSubFlow" />
     </flow>
-	<flow name="get:\college:api-config">
-		<flow-ref doc:name="fetchData_LogicSubFlow" doc:id="b2495822-d8ff-4222-9060-897c3f724b22" name="fetchData_LogicSubFlow"/>
+    <flow name="get:\college:api-config">
+        <flow-ref doc:name="fetchData_LogicSubFlow" doc:id="b2495822-d8ff-4222-9060-897c3f724b22" name="fetchData_LogicSubFlow" />
     </flow>
-	<flow name="get:\enrolment:api-config">
-		<flow-ref doc:name="fetchData_LogicSubFlow" doc:id="471211a3-163c-437f-a0ca-f6da1a8a270b" name="fetchData_LogicSubFlow"/>
+    <flow name="get:\enrolment:api-config">
+        <flow-ref doc:name="fetchData_LogicSubFlow" doc:id="471211a3-163c-437f-a0ca-f6da1a8a270b" name="fetchData_LogicSubFlow" />
     </flow>
-	<flow name="post:\enrolment:application\json:api-config">
-		<flow-ref doc:name="insertData_LogicSubFlow" doc:id="2ceae551-4b29-488c-823c-74a6de99daad" name="insertData_LogicSubFlow"/>
+    <flow name="post:\enrolment:application\json:api-config">
+        <flow-ref doc:name="insertData_LogicSubFlow" doc:id="2ceae551-4b29-488c-823c-74a6de99daad" name="insertData_LogicSubFlow" />
     </flow>
-	<flow name="patch:\college:application\json:api-config">
-		<flow-ref doc:name="updateData_LogicSubFlow" doc:id="16dcf109-caff-47c5-9468-22bc2f1ffc21" name="updateData_LogicSubFlow"/>
+    <flow name="patch:\college:application\json:api-config">
+        <flow-ref doc:name="updateData_LogicSubFlow" doc:id="16dcf109-caff-47c5-9468-22bc2f1ffc21" name="updateData_LogicSubFlow" />
     </flow>
-	<flow name="get:\ping:api-config">
-		<flow-ref doc:name="healthCheckSub_Flow" doc:id="213946f6-3812-4613-816c-fdfb4a487870" name="healthCheckSub_Flow"/>
+    <flow name="get:\ping:api-config">
+        <flow-ref doc:name="healthCheckSub_Flow" doc:id="213946f6-3812-4613-816c-fdfb4a487870" name="healthCheckSub_Flow" />
+    </flow>
+    <flow name="get:\admission:api-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  student_id: "5458726901",
+  assigned_id: "CSE5236401475",
+  college_details: {
+    college_id: "MDR5487120",
+    department: "ECE"
+  },
+  admissionStatus: "true",
+  admissionFees: 5800
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\library:api-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  library_id: "LIBCSE69",
+  student_id: "3135696952",
+  assigned_id: "CSE69",
+  college_details: {
+    college_id: "MDR5487120"
+  }
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\admission:application\json:api-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  success_message: "Student admission successful"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\library:application\json:api-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  success_message: "Student registration for libary is successful"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
     </flow>
 </mule>

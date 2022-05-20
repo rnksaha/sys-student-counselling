@@ -63,14 +63,8 @@ types:
         maxLength: 10
         pattern: ^[A-Z0-9]*$
       collegeChoices:
-        type: object
-        properties:
-          first:
-            type: request_college
-          second:
-            type: request_college
-          third:
-            type: request_college
+        type: array
+        items: request_college
 
   request_college:
     type: object
@@ -109,19 +103,14 @@ types:
         properties:
           CSE:
             type: deptDetails
-            required: false
           ECE:
             type: deptDetails
-            required: false
           IT:
             type: deptDetails
-            required: false
           CE:
             type: deptDetails
-            required: false
           ME:
             type: deptDetails
-            required: false
       address:
         type: object
         properties:
@@ -147,6 +136,8 @@ types:
           phone:
             type: string
             maxLength: 15
+      admissionFees:
+        type: integer
 
   student_type:
     description: Individual student data
@@ -256,19 +247,16 @@ types:
         properties:
           gen:
             type: object
-            required: false
             properties:
               noOfSeat:
                 type: number
           sc:
             type: object
-            required: false
             properties:
               noOfSeat:
                 type: number
           st:
             type: object
-            required: false
             properties:
               noOfSeat:
                 type: number
@@ -286,3 +274,52 @@ types:
       - ECE
       - CE
       - ME
+  library_type:
+    description: Individual students data who have issued library card
+    type: object
+    properties:
+      library_id:
+        type: string
+        maxLength: 20
+        pattern: ^[A-Z0-9]*$
+      student_id:
+        type: string
+        maxLength: 10
+        pattern: ^[A-Z0-9]*$
+      assigned_id:
+        type: string
+        maxLength: 15
+        pattern: ^[A-Z0-9]*$
+      college_details:
+        type: object
+        properties:
+          college_id:
+            type: string
+            maxLength: 10
+            pattern: ^[A-Z0-9]*$
+  admission_type:
+    description: Individual students data who have paid their admission fees
+    type: object
+    properties:
+      student_id:
+        type: string
+        maxLength: 10
+        pattern: ^[A-Z0-9]*$
+      assigned_id:
+        type: string
+        maxLength: 15
+        pattern: ^[A-Z0-9]*$
+      college_details:
+        type: object
+        properties:
+          college_id:
+            type: string
+            maxLength: 10
+            pattern: ^[A-Z0-9]*$
+      admissionStatus:
+        type: boolean
+      admissionFees:
+        type: integer
+
+
+

@@ -2,7 +2,7 @@
 title: SAPI Student Counselling
 
 uses:
-  commons: /exchange_modules/26105a91-12e5-4470-b3a0-40b228e3e2a0/sc_commonslib/0.0.5/sc_commonslib.raml
+  commons: /exchange_modules/26105a91-12e5-4470-b3a0-40b228e3e2a0/sc_commonslib/0.0.11/sc_commonslib.raml
 
 /student: 
   is: 
@@ -109,6 +109,87 @@ uses:
             type: commons.error_response
             example: {"error_message": "Student enrolment failed"}
 
+
+/library:
+  is: 
+    - commons.client_id_required
+    - commons.database_prereq
+  get:
+    description: Get registered student details with library card
+    queryParameters:
+      id: string
+    responses:
+      200:
+        description: Requested student registered for library
+        body:
+          application/json:
+            type: commons.library_type
+            example: !include /examples/LibraryExample.json
+      404:
+        description: Requested student not registered
+        body:
+          application/json:
+            type: commons.error_response
+            example: {"error_message": "Requested id not found"}
+  post:
+    description: Register particular student for library
+    body:
+      application/json:
+        example: !include /examples/LibraryExample.json
+    responses:
+      201:
+        description: Library regstration successful
+        body:
+          application/json:
+            type: commons.success_response
+            example: {"success_message": "Student registration for libary is successful"}
+      500:
+        description: Registration error
+        body:
+          application/json:
+            type: commons.error_response
+            example: {"error_message": "Student registration failed"}
+        
+/admission:
+  is: 
+    - commons.client_id_required
+    - commons.database_prereq
+  get:
+    description: Get enrolled admission student details
+    queryParameters:
+      id: string
+    responses:
+      200:
+        description: Requested student enrolled admission details found successfully
+        body:
+          application/json:
+            type: commons.enrolment_type
+            example: !include /examples/AdmissionExample.json
+      404:
+        description: Requested student enrolment details not found
+        body:
+          application/json:
+            type: commons.error_response
+            example: {"error_message": "Requested id not found"} 
+            
+  post:
+    description: Admit particular student to specified college
+    body:
+      application/json:
+        example: !include /examples/AdmissionExample.json
+    responses:
+      201:
+        description: Admission successful
+        body:
+          application/json:
+            type: commons.success_response
+            example: {"success_message": "Student admission successful"}
+      500:
+        description: Enrolment error
+        body:
+          application/json:
+            type: commons.error_response
+            example: {"error_message": "Student admission failed"}
 /ping:
   get:
     description: Healthcheck endpoint
@@ -118,5 +199,4 @@ uses:
         body:
           application/json:
             example: !include /examples/HealthcheckExample.json
-        
-       
+

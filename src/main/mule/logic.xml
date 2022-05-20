@@ -27,6 +27,16 @@ else if ( vars.vAttributes.maskedRequestPath == "/enrolment" ) {
 	collectionValue: p('mongo.enrolment_collection.name'),
 	fields: p('mongo.enrolment_collection.fields')
 }
+else if ( vars.vAttributes.maskedRequestPath == "/admission" ) {
+	indexValue: "student_id",
+	collectionValue: p('mongo.admission_collection.name'),
+	fields: p('mongo.admission_collection.fields')
+}
+else if ( vars.vAttributes.maskedRequestPath == "/library" ) {
+	indexValue: "student_id",
+	collectionValue: p('mongo.library_collection.name'),
+	fields: p('mongo.library_collection.fields')
+}
 else null
 ---
 {

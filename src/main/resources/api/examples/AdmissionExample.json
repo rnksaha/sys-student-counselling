@@ -4,5 +4,7 @@
   "college_details": {
     "college_id": "MDR5487120",
     "department": "ECE"
-  }
+  },
+  "admissionStatus": "true",
+  "admissionFees": 5800
 }
