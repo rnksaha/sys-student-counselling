@@ -69,27 +69,9 @@ output application/json
         </ee:transform>
     </flow>
     <flow name="post:\admission:application\json:api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  success_message: "Student admission successful"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="87d006ac-8f91-4228-bdc4-b84403599dc2" name="insertData_LogicSubFlow"/>
     </flow>
     <flow name="post:\library:application\json:api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  success_message: "Student registration for libary is successful"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="Flow Reference" doc:id="80a01322-9454-4dc9-b203-3703a2dd8788" name="insertData_LogicSubFlow"/>
     </flow>
 </mule>

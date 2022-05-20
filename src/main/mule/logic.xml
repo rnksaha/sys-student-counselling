@@ -61,7 +61,32 @@ vars.vfetch_data[0]]]></ee:set-payload>
 	</sub-flow>
 	<sub-flow name="insertData_LogicSubFlow" doc:id="59866322-fccf-4ab7-b763-30243f583e1d" >
 		<try doc:name="Try" doc:id="2bd97c62-9a3d-4399-8891-2e8b645f03ba" >
-			<mongo:insert-document collectionName="${mongo.enrolment_collection.name}" doc:name="Insert student enrolment" doc:id="49ddbad9-d4f3-42bd-a06a-8b40df2d12e7" config-ref="MongoDB_Config" targetValue="#[message]">
+			<ee:transform doc:name="Transform Message" doc:id="f09743ab-648a-4cab-8455-411956c19a71" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var index = if ( vars.vAttributes.maskedRequestPath == "/enrolment" ) {
+	collectionValue: p('mongo.enrolment_collection.name'),
+	success_message: "Student enrollment successful"
+}
+else if ( vars.vAttributes.maskedRequestPath == "/admission" ) {
+	collectionValue: p('mongo.admission_collection.name'),
+	success_message: "Payment successful"
+}
+else if ( vars.vAttributes.maskedRequestPath == "/library" ) {
+	collectionValue: p('mongo.library_collection.name'),
+	success_message: "Library card issued successfully"
+}
+else null
+---
+{
+	dbCollection: index.collectionValue,
+	message: index.success_message
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.message]" doc:name="Set Variable" doc:id="d22657d1-091f-4ed8-b264-c03b393acd83" variableName="message"/>
+			<mongo:insert-document collectionName="#[payload.dbCollection]" doc:name="Insert student enrolment" doc:id="49ddbad9-d4f3-42bd-a06a-8b40df2d12e7" config-ref="MongoDB_Config" targetValue="#[message]">
 			<mongo:document><![CDATA[#[vars.vPayload]]]></mongo:document>
 		</mongo:insert-document>
 			<error-handler >
@@ -75,9 +100,7 @@ vars.vfetch_data[0]]]></ee:set-payload>
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
-	"success_message": "Student enrolment successful"
-}
+vars.message
 ]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>

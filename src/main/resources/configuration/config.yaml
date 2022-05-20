@@ -30,5 +30,5 @@ mongo:
     name: "admission_details" 
     fields: "student_id,assigned_id,college_details,admissionStatus,admissionFees"
   library_collection:
-    name: "enrolment_details" 
+    name: "library_details" 
     fields: "library_id,student_id,assigned_id,college_details"
