@@ -33,45 +33,15 @@
         <flow-ref doc:name="healthCheckSub_Flow" doc:id="213946f6-3812-4613-816c-fdfb4a487870" name="healthCheckSub_Flow" />
     </flow>
     <flow name="get:\admission:api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  student_id: "5458726901",
-  assigned_id: "CSE5236401475",
-  college_details: {
-    college_id: "MDR5487120",
-    department: "ECE"
-  },
-  admissionStatus: "true",
-  admissionFees: 5800
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="fetch data from admission_details collection" doc:id="88eceb54-ee11-421a-8b48-48f6a76bbd88" name="fetchData_LogicSubFlow"/>
     </flow>
     <flow name="get:\library:api-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  library_id: "LIBCSE69",
-  student_id: "3135696952",
-  assigned_id: "CSE69",
-  college_details: {
-    college_id: "MDR5487120"
-  }
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="fetch data from library_details collection" doc:id="a06cee1f-98ed-4bbd-8fd4-407d6ea0a564" name="fetchData_LogicSubFlow"/>
     </flow>
     <flow name="post:\admission:application\json:api-config">
-        <flow-ref doc:name="Flow Reference" doc:id="87d006ac-8f91-4228-bdc4-b84403599dc2" name="insertData_LogicSubFlow"/>
+        <flow-ref doc:name="insert data to admission_details collection" doc:id="87d006ac-8f91-4228-bdc4-b84403599dc2" name="insertData_LogicSubFlow"/>
     </flow>
     <flow name="post:\library:application\json:api-config">
-        <flow-ref doc:name="Flow Reference" doc:id="80a01322-9454-4dc9-b203-3703a2dd8788" name="insertData_LogicSubFlow"/>
+        <flow-ref doc:name="insert data to library_details collection" doc:id="80a01322-9454-4dc9-b203-3703a2dd8788" name="insertData_LogicSubFlow"/>
     </flow>
 </mule>
