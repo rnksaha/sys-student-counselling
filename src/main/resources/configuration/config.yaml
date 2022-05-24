@@ -19,7 +19,7 @@ mongo:
   dbname: "counselling_data"
   college_collection:
     name: "college_details"
-    fields: "id,name,criteria,seatsAvailable,seatsDetails"
+    fields: "id,name,criteria,seatsAvailable,seatsDetails,admissionFees"
   student_collection:
     name: "student_details"
     fields: "uid,fname,lname,sex,caste,dob,address,contactDetails,educationDetails"
@@ -28,7 +28,7 @@ mongo:
     fields: "student_id,assigned_id,college_details"
   admission_collection:
     name: "admission_details" 
-    fields: "student_id,assigned_id,college_details,admissionStatus,admissionFees"
+    fields: "student_id,assigned_id,college_details,admissionFees"
   library_collection:
     name: "library_details" 
     fields: "library_id,student_id,assigned_id,college_details"

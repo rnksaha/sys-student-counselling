@@ -110,6 +110,7 @@
 				</munit:variables>
 				<munit:variables >
 					<munit:variable key="vPayload" value="#[MunitTools::getResourceAsString('munit_test_resources/postEnrollmentTest.json')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="vAttributes" value="#[MunitTools::getResourceAsString('munit_test_resources/postEnrollment.json')]" encoding="UTF-8" mediaType="application/json" />
 				</munit:variables>
 
 			</munit:set-event>
