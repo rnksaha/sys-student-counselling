@@ -130,4 +130,28 @@ output application/json
 				</ee:message>
 			</ee:transform>
 	</sub-flow>
+	<sub-flow name="healthCheckSub_Flow" doc:id="416bec4c-c902-430c-a81a-dce7da1e65c8" >
+		<ee:transform doc:name="Transform Message" doc:id="9ecfa1f6-4015-47f7-8bee-7bcaeb71ce22" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+
+
+ {
+  module: "${ping.module}",
+  projectVersion: "${ping.projectVersion}",
+  apiVersion: "${ping.apiVersion}",
+  env: "${ping.env}",
+  status: "${ping.status}",
+  message: "${ping.message}"
+  }
+	
+		
+	
+	  
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
 </mule>

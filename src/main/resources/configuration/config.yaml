@@ -32,3 +32,13 @@ mongo:
   library_collection:
     name: "library_details" 
     fields: "library_id,student_id,assigned_id,college_details"
+    
+    
+    
+ping:
+  module: "SAPI Student Counselling"
+  projectVersion: "2.0.0"
+  apiVersion: "2.0.0"
+  env: "DEV"
+  status: "200"
+  message: "Alive"

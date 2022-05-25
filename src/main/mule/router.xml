@@ -30,7 +30,7 @@
         <flow-ref doc:name="updateData_LogicSubFlow" doc:id="16dcf109-caff-47c5-9468-22bc2f1ffc21" name="updateData_LogicSubFlow" />
     </flow>
     <flow name="get:\ping:api-config">
-        <flow-ref doc:name="healthCheckSub_Flow" doc:id="213946f6-3812-4613-816c-fdfb4a487870" name="healthCheckSub_Flow" />
+        <flow-ref doc:name="healthCheckSub_Flow" doc:id="213946f6-3812-4613-816c-fdfb4a487870" name="healthkSub_Flow" />
     </flow>
     <flow name="get:\admission:api-config">
         <flow-ref doc:name="fetch data from admission_details collection" doc:id="88eceb54-ee11-421a-8b48-48f6a76bbd88" name="fetchData_LogicSubFlow"/>
