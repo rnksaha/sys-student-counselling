@@ -131,21 +131,40 @@ output application/json
 			</ee:transform>
 	</sub-flow>
 	<sub-flow name="healthCheckSub_Flow" doc:id="416bec4c-c902-430c-a81a-dce7da1e65c8" >
+		<try doc:name="Try" doc:id="6da5b90e-bf61-4cfb-81ef-8169ba86a0f9" >
+			<mongo:find-documents doc:name="Find documents" doc:id="ff4d1005-3c65-4124-af66-20999e154a63" config-ref="MongoDB_Config" collectionName="ping_details" fields="ping_message">
+			</mongo:find-documents>
+			<set-payload value="#[payload.ping_message[0]]" doc:name="Set Payload" doc:id="c55a3803-692a-438b-b301-0b99cc31536a" />
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="5449913c-c30f-40ae-8cd2-e3096c930702" type="ANY">
+					<ee:transform doc:name="Transform Message" doc:id="48256098-d52d-4c31-8baf-34140dc33f78" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+
+"MongoDB is not alive"]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
 		<ee:transform doc:name="Transform Message" doc:id="9ecfa1f6-4015-47f7-8bee-7bcaeb71ce22" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-
-
- {
-  module: "${ping.module}",
-  projectVersion: "${ping.projectVersion}",
-  apiVersion: "${ping.apiVersion}",
-  env: "${ping.env}",
-  status: "${ping.status}",
-  message: "${ping.message}"
-  }
+{
+	dependentTargetSystem:{
+	"mongoDB": payload
+	},
+	module: "${ping.module}",
+	projectVersion: "${ping.projectVersion}",
+	apiVersion: "${ping.apiVersion}",
+	env: "${ping.env}",
+	status: "${ping.status}",
+	message: "${ping.message}"
+}
 	
 		
 	
