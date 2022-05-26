@@ -13,17 +13,17 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<ee:transform doc:name="Transform Message" doc:id="6fa0a1cc-3875-4419-b0a7-bae6201ecec5">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
-{
-  module: "SAPI Student Counselling",
-  projectVersion: "1.0.0",
-  apiVersion: "1.0.0",
-  env: "DEV",
-  status: "200",
-  message: "Alive"
-	
-}]]></ee:set-payload>
+ {
+  module: "${ping.module}",
+  projectVersion: "${ping.projectVersion}",
+  apiVersion: "${ping.apiVersion}",
+  env: "${ping.env}",
+  status: "${ping.status}",
+  message: "${ping.message}"
+  }
+	]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
 			</otherwise>
