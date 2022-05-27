@@ -90,8 +90,14 @@ else null
 			<mongo:document><![CDATA[#[vars.vPayload]]]></mongo:document>
 		</mongo:insert-document>
 			<error-handler >
-				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7207ae10-045a-4806-aae3-8b2d1bf88224" type="ANY">
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7207ae10-045a-4806-aae3-8b2d1bf88224" type="ANY" when='vars.vAttributes.maskedRequestPath == "/enrolment"'>
 					<raise-error doc:name="APP:NOT_INSERTED" doc:id="02590852-3f2d-427a-b5fe-fd9cf9731c04" type="APP:NOT_INSERTED" description="Student enrolment failed"/>
+				</on-error-propagate>
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1594f06e-d834-4dad-8f2e-69b58dba9253" type="ANY" when='vars.vAttributes.maskedRequestPath == "/admission"'>
+					<raise-error doc:name="APP:NOT_INSERTED" doc:id="5dfbe612-4b59-4a69-8958-1c8ae0930632" type="APP:NOT_INSERTED" description="Student Admission Failed"/>
+				</on-error-propagate>
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="af131633-0ace-4c4c-bff7-8722d3e128a9" type="ANY" when='vars.vAttributes.maskedRequestPath == "/library"'>
+					<raise-error doc:name="APP:NOT_INSERTED" doc:id="9b3b3387-cdc3-4cdd-8d22-e37c5bf07ea6" type="APP:NOT_INSERTED" description="Student Library registration failed"/>
 				</on-error-propagate>
 			</error-handler>
 		</try>
