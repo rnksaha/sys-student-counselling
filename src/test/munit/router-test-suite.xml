@@ -9,11 +9,47 @@
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="router-test-suite.xml" />
 	<munit:test name="routerTestGetPing" doc:id="9f6e22a3-2ab6-4cfb-829d-0e9585e358b5" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4bc5d03b-6d8f-40db-beaf-9701ad7c897a" processor="mongo:find-documents">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Find documents" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
 		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="34d45aa9-b964-4f91-bbce-4fcf0de7a7fd" >
+				<munit:variables >
+					<munit:variable key="vAttributes" value="#[MunitTools::getResourceAsString('munit_test_resources/pingAttribute.json')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="vfetch_data" value="#[MunitTools::getResourceAsString('munit_test_resources/pingTest.json')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
 			<flow-ref doc:name="getPing" doc:id="09ca7f67-7631-489d-bbcd-0ad26cae1aaf" name="get:\ping:api-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="c450fdaa-aebd-4629-b786-b4339b6c7b7d" message="Not Up to the mark" is="#[MunitTools::notNullValue()]" expression="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="routerTestGetPingError" doc:id="1baab51d-aaa9-4677-85cf-bac96f5b5676" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="2065702c-946d-4175-9f04-1feba31869b0" processor="mongo:find-documents">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Find documents" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="ANY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="3ba02ee2-615d-4c7a-9dca-b80d426876b8" >
+				<munit:variables >
+					<munit:variable key="vAttributes" value="#[MunitTools::getResourceAsString('munit_test_resources/pingAttribute.json')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="getPing" doc:id="d57d0c0f-9160-4bae-bfd7-8c6eb326cfc6" name="get:\ping:api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="902d226c-8969-4fc9-bd5f-391de3b421e6" message="Not Up to the mark" is="#[MunitTools::notNullValue()]" expression="#[payload]" />
 		</munit:validation>
 	</munit:test>
 	<munit:test name="routerTestGetStudent" doc:id="72052853-72e7-42c8-bf67-08db97c6468b" description="Test">
@@ -83,41 +119,6 @@
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="38a7b639-43a6-4726-aa9a-3d40bfc381a1" is="#[MunitTools::notNullValue()]" message="enrollment details not found" expression="#[payload]"/>
-		</munit:validation>
-	</munit:test>
-	<munit:test name="routerTestPostEnrolment" doc:id="05645885-80b4-4fa8-aab3-4b9dd1c29b47" description="Test">
-		<munit:behavior >
-			<munit-tools:mock-when doc:name="insertDocument" doc:id="802f3b4e-3b5e-417f-a9a6-eda60ead46bd" processor="mongo:insert-document" >
-				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="Insert student enrolment" attributeName="doc:name" />
-				</munit-tools:with-attributes>
-
-			</munit-tools:mock-when>
-		</munit:behavior>
-		<munit:execution >
-			<munit:set-event doc:name="vPayload" doc:id="403c895a-1eef-4caf-ac1f-6d1b12472d6f" >
-				<munit:variables >
-					<munit:variable key="vPayload" value="#[MunitTools::getResourceAsString('munit_test_resources/postEnrollmentTest.json')]" encoding="UTF-8" mediaType="application/json" />
-				</munit:variables>
-				<munit:variables >
-					<munit:variable key="vPayload" value="#[MunitTools::getResourceAsString('munit_test_resources/postEnrollmentTest.json')]" encoding="UTF-8" mediaType="application/json" />
-				</munit:variables>
-				<munit:variables >
-					<munit:variable key="vPayload" value="#[MunitTools::getResourceAsString('munit_test_resources/postEnrollmentTest.json')]" encoding="UTF-8" mediaType="application/json" />
-				</munit:variables>
-				<munit:variables >
-					<munit:variable key="vPayload" value="#[MunitTools::getResourceAsString('munit_test_resources/postEnrollmentTest.json')]" encoding="UTF-8" mediaType="application/json" />
-				</munit:variables>
-				<munit:variables >
-					<munit:variable key="vPayload" value="#[MunitTools::getResourceAsString('munit_test_resources/postEnrollmentTest.json')]" encoding="UTF-8" mediaType="application/json" />
-					<munit:variable key="vAttributes" value="#[MunitTools::getResourceAsString('munit_test_resources/postEnrollment.json')]" encoding="UTF-8" mediaType="application/json" />
-				</munit:variables>
-
-			</munit:set-event>
-			<flow-ref doc:name="enrollStudent" doc:id="9bd6a7d3-28b4-43a4-9f62-176decb98316" name="post:\enrolment:application\json:api-config"/>
-		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert that" doc:id="32a9e8cb-a693-463c-9fe8-b2d5198c43ff" message="enrollment failed" is="#[MunitTools::notNullValue()]" expression="#[payload]" />
 		</munit:validation>
 	</munit:test>
 	<munit:test name="routerTestGetStudent_Error" doc:id="b00e81c8-c2e4-4e7e-a9bf-b8e7f61ade9c" description="Test">
@@ -354,7 +355,7 @@
 				</munit-tools:mock-when>
 			</munit:behavior>
 			<munit:execution>
-				<munit:set-event doc:name="Copy_of_Set Event" doc:id="4b432cf7-3e36-4f50-ad09-098043237cd3">
+				<munit:set-event doc:name="Set Event" doc:id="4b432cf7-3e36-4f50-ad09-098043237cd3">
 					<munit:variables>
 						<munit:variable key="vfetch_data" value="#[MunitTools::getResourceAsString('munit_test_resources/getLibrary.json')]" encoding="UTF-8" mediaType="application/json" />
 						<munit:variable key="vAttributes" value="#[MunitTools::getResourceAsString('munit_test_resources/libraryAttribute.json')]" encoding="UTF-8" mediaType="application/json" />
@@ -415,7 +416,7 @@
 						<munit-tools:with-attribute whereValue="Insert student enrolment" attributeName="doc:name" />
 					</munit-tools:with-attributes>
 				<munit-tools:then-return >
-					<munit-tools:error typeId="VALIDATION:EMPTY_COLLECTION" />
+					<munit-tools:error typeId="APP:NOT_INSERTED" />
 				</munit-tools:then-return>
 				</munit-tools:mock-when>
 			</munit:behavior>
@@ -439,7 +440,7 @@
 						<munit-tools:with-attribute whereValue="Insert student enrolment" attributeName="doc:name" />
 					</munit-tools:with-attributes>
 				<munit-tools:then-return >
-					<munit-tools:error typeId="VALIDATION:EMPTY_COLLECTION" />
+					<munit-tools:error typeId="APP:NOT_INSERTED" />
 				</munit-tools:then-return>
 				</munit-tools:mock-when>
 			</munit:behavior>
@@ -456,6 +457,50 @@
 				<munit-tools:assert-that doc:name="Assert that" doc:id="99e5d0b6-2d9a-4465-89bf-ee732295bd7f" message="Data Not Found" is="#[MunitTools::notNullValue()]" expression="#[payload]" />
 			</munit:validation>
 		</munit:test>
-
+<munit:test name="routerTestPostEnrolment" doc:id="2ec453ba-0f79-4c6b-9c1a-b3e4e34cc64b" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1e947963-a5fc-4ebd-815d-fdf92b046f87" processor="mongo:insert-document">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute whereValue="Insert student enrolment" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:name="Set Event" doc:id="dcf8272e-8458-45d7-9277-a96fec03d9d0">
+				<munit:variables>
+					<munit:variable key="vAttributes" value="#[MunitTools::getResourceAsString('munit_test_resources/enrolmentAttribute.json')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="collectionValue" value="#[MunitTools::getResourceAsString('munit_test_resources/db.json')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="PostEnrolment" doc:id="19032678-3650-47d3-a2b6-c068ab0e87b0" name="post:\enrolment:application\json:api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1d667b2e-4524-4622-b260-55247d7e59ca" is="#[MunitTools::notNullValue()]" expression="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="routerTestPostEnrolmentError" doc:id="7342fd73-40a2-4449-ac04-ccffb398e33e" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="0df93dbb-fe9e-4b2d-9647-c70b0993108d" processor="mongo:insert-document" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Insert student enrolment" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:NOT_INSERTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="40ebd119-85bb-4cd2-94ee-c707da1c09ae" >
+				<munit:variables >
+					<munit:variable key="vAttributes" value="#[MunitTools::getResourceAsString('munit_test_resources/enrolmentAttribute.json')]" encoding="UTF-8" mediaType="application/json" />
+					<munit:variable key="collectionValue" value="#[MunitTools::getResourceAsString('munit_test_resources/db.json')]" encoding="UTF-8" mediaType="application/json" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="PostEnrolmentError" doc:id="95476d46-a852-410b-9479-5a83a30a2a83" name="post:\enrolment:application\json:api-config" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="61124749-5e93-4759-a6c0-6f89b996ffd8" is="#[MunitTools::notNullValue()]" expression="#[payload]" />
+		</munit:validation>
+	</munit:test>
 
 </mule>

@@ -1,0 +1,11 @@
+{
+    "dependentTargetSystem": {
+        "mongoDB": "MongoDB is alive"
+    },
+    "module": "SAPI Student Counselling",
+    "projectVersion": "2.0.0",
+    "apiVersion": "2.0.0",
+    "env": "DEV",
+    "status": "200",
+    "message": "Alive"
+}
