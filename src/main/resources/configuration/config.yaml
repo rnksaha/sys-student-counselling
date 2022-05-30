@@ -14,8 +14,8 @@ papi:
   port: "80"
  
 mongo:
-  username: "MuleIntern2022"
-  password: "vLhoBp7TxmW2opuV"
+  #username: "MuleIntern2022"
+  #password: "vLhoBp7TxmW2opuV"
   dbname: "counselling_data"
   college_collection:
     name: "college_details"

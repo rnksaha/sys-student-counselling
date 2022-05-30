@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 
 	<configuration-properties doc:name="Configuration properties" doc:id="e9098f3e-23c6-44c1-8379-7f9029b8ac6e" file="configuration\config.yaml" />
 	<mongo:config name="MongoDB_Config" doc:name="MongoDB Config" doc:id="0b7b6854-7417-4beb-bcf8-e404b302cf7b" >
-		<mongo:connection-string-connection connectionString="mongodb+srv://${mongo.username}:${mongo.password}@cluster0.j3i2h.mongodb.net/${mongo.dbname}" />
+		<mongo:connection-string-connection connectionString="mongodb+srv://${secure::mongo.username}:${secure::mongo.password}@cluster0.j3i2h.mongodb.net/${mongo.dbname}" />
 	</mongo:config>
 	<http:listener-config name="api-httpListenerConfig">
         <http:listener-connection host="${http.host}" port="${http.port}" protocol="${http.protocol}"/>

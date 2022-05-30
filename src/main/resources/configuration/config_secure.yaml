@@ -1,3 +1,7 @@
 property:
     client_id:"![Xy2TwDymzzMXIiJCpIDWU1bhS8I3oWWfdOA2TjLyTFk+TA7+4f+xkga+rafrxBJF]"
     client_secret:"![GeJEVsUzMrzjlaRibygF2z+NO6C5d9xtJZV6q3BgkGiKIFq7SH5atofTIB4RzXF7]"
+
+mongo: 
+    username: "![OlqPKHMuRGzdlDOXu8P6qw==]"
+    password: "![9v20HlsvV0/cA695Mqca9dO0vEuTU7IaKkLm/gvdC3c=]"
