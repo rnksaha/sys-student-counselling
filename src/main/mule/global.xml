@@ -21,5 +21,5 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
     <apikit:config name="api-config" api="api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 	<configuration doc:name="Configuration" doc:id="ff858b33-832c-4dd3-a2ba-eef163865c80" defaultErrorHandler-ref="globalError_Handler" />
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="e9e3eb14-20af-40fd-b2a5-cf6e2c295906" file="configuration/config_secure.yaml" key="${secure.key}" />
-	<api-gateway:autodiscovery apiId="17865328" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="97affff0-f802-47ce-80ab-e6aa66b6da59" flowRef="api-main" />
+	<api-gateway:autodiscovery apiId="17875504" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="97affff0-f802-47ce-80ab-e6aa66b6da59" flowRef="api-main" />
 </mule>
